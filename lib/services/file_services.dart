@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart' as path;
 import '../utils/logger.dart';
 
@@ -9,16 +8,25 @@ class FileService {
 
   Future<void> pickFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['xlsx', 'csv', 'json'],
-      );
-
-      if (result != null) {
-        selectedFile = File(result.files.single.path!);
-        print('Selected file: ${path.basename(selectedFile!.path)}');
+      print('\nEnter the path to your file (Excel, CSV, or JSON):');
+      String? filePath = stdin.readLineSync();
+      
+      if (filePath != null && filePath.isNotEmpty) {
+        final file = File(filePath);
+        
+        if (await file.exists()) {
+          final extension = path.extension(filePath).toLowerCase();
+          if (['.xlsx', '.csv', '.json'].contains(extension)) {
+            selectedFile = file;
+            print('Selected file: ${path.basename(selectedFile!.path)}');
+          } else {
+            print('Error: Unsupported file format. Please use .xlsx, .csv, or .json files.');
+          }
+        } else {
+          print('Error: File does not exist at the specified path.');
+        }
       } else {
-        print('No file selected.');
+        print('No file path provided.');
       }
     } catch (e) {
       logger.e('Error picking file: $e');

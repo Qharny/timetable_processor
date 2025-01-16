@@ -46,7 +46,7 @@ class ExportService {
     final headers = TimetableEntry.csvHeaders();
     for (var i = 0; i < headers.length; i++) {
       sheet.cell(CellIndex.indexByColumnRow(columnIndex: i, rowIndex: 0))
-        ..value = headers[i];
+        .value = headers[i] as CellValue?;
     }
 
     // Add data
@@ -54,7 +54,7 @@ class ExportService {
       final row = data[i].toCsvRow();
       for (var j = 0; j < row.length; j++) {
         sheet.cell(CellIndex.indexByColumnRow(columnIndex: j, rowIndex: i + 1))
-          ..value = row[j];
+          .value = row[j] as CellValue?;
       }
     }
 
