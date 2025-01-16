@@ -1,7 +1,7 @@
 name: timetable_processor
 description: A university timetable file processor
 version: 1.0.0
-# repository: https://github.com/my_org/my_repo
+repository: https://github.com/Qharny/timetable_processor
 
 environment:
   sdk: ^3.6.0
